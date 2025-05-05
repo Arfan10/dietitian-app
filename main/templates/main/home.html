@@ -1,0 +1,52 @@
+<!-- templates/main/home.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="bg-gray-50">
+    <!-- Hero Section -->
+    <section class="text-center py-20 bg-blue-600 text-white">
+        <h1 class="text-4xl font-bold mb-4">Welcome to Your Dietitian Services</h1>
+        <p class="text-lg mb-6">Get personalized nutrition advice to lead a healthier life.</p>
+        <a href="{% url 'book_appointment' %}" class="border border-blue-500 text-black-500 font-semibold py-2 px-4 rounded hover:bg-blue-500 hover:text-white">Book an Appointment</a>
+    </section>
+
+    <!-- Services Section -->
+    <section class="py-12 bg-white">
+        <div class="max-w-7xl mx-auto text-center">
+            <h2 class="text-3xl font-semibold text-gray-800 mb-6">Our Services</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="service-card p-6 bg-gray-100 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold">Personalized Nutrition Plans</h3>
+                    <p class="mt-4">Tailored meal plans to help you achieve your health goals.</p>
+                </div>
+                <div class="service-card p-6 bg-gray-100 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold">One-on-One Consultations</h3>
+                    <p class="mt-4">Private consultations to assess your dietary needs.</p>
+                </div>
+                <div class="service-card p-6 bg-gray-100 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold">Weight Loss Programs</h3>
+                    <p class="mt-4">Effective programs to help you reach your weight goals.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-12 bg-gray-50">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl font-semibold text-gray-800 mb-6">What Our Clients Say</h2>
+            <div class="flex justify-center gap-12">
+                <div class="testimonial-card p-6 bg-white rounded-lg shadow-md">
+                    <p class="italic text-gray-600">"The personalized plan helped me lose 10 pounds in just a month!"</p>
+                    <h4 class="mt-4 font-bold">Sarah, 28</h4>
+                </div>
+                <div class="testimonial-card p-6 bg-white rounded-lg shadow-md">
+                    <p class="italic text-gray-600">"I feel more energized and healthier thanks to the dietitian's advice!"</p>
+                    <h4 class="mt-4 font-bold">James, 35</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

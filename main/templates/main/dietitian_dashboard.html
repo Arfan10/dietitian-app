@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Dietitian Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mx-auto p-6">
+  <h1 class="text-3xl font-bold mb-4">Welcome, {{ request.user.username }} (Dietitian)</h1>
+
+  <div class="bg-white shadow rounded-lg p-6 mb-6">
+    <h2 class="text-2xl font-semibold mb-4">All Appointments</h2>
+    {% if appointments %}
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Patient</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Full Name</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Time</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Message</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          {% for appt in appointments %}
+          <tr>
+            <td class="px-6 py-4 whitespace-nowrap">{{ appt.user.username }}</td>
+            <td class="px-6 py-4 whitespace-nowrap">{{ appt.full_name }}</td>
+            <td class="px-6 py-4 whitespace-nowrap">{{ appt.email }}</td>
+            <td class="px-6 py-4 whitespace-nowrap">{{ appt.date }}</td>
+            <td class="px-6 py-4 whitespace-nowrap">{{ appt.time }}</td>
+            <td class="px-6 py-4 whitespace-nowrap">{{ appt.message|default:"—" }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+      <p class="text-gray-600">No appointments have been booked yet.</p>
+    {% endif %}
+  </div>
+
+  <div class="flex space-x-4">
+    <a href="{% url 'book_appointment' %}" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded">
+      Book New Appointment
+    </a>
+    <a href="{% url 'logout' %}" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded">
+      Logout
+    </a>
+  </div>
+</div>
+{% endblock %}

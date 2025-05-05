@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class= "flex justify-center items-center h-screen bg-gray-100">
+    <form method="POST" class= "bg-white p-8 rounded shadow-md w-96">
+        {% csrf_token %}
+        <h2 class="text-2xl font-bold mb-6 text-center">Sign up</h2>
+
+        {%for messages in messages%}
+        <p class="text-red-500">{{messages}}</p>
+        {% endfor %}
+
+        <input type="text" name="username" placeholder = "Username" class="w-full mb-4 p-2 border rounded" required>
+        <input type="email" name="email" placeholder = "Email" class="w-full mb-4 p-2 border rounded" required>
+        <input type="password" name="password" placeholder = "Password" class="w-full mb-4 p-2 border rounded" required>
+        <input type="password" name="confirm_password" placeholder = "Confirm Password" class="w-full mb-4 p-2 border rounded" required>
+
+        <select name="role">
+            <option value="User">User</option>
+            <option value="Dietitian">Dietitian</option>
+        </select>
+
+        <button type="submit" class= "w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"> Sign Up</button>
+
+        <p class="text-center mt-4">
+            Already have an account? <a href="{%url 'login'%}" class="text-blue-600">Log In</a>
+        </p>
+
+
+    </form>
+</div>
+{% endblock  %}

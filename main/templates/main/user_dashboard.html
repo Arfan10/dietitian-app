@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %} User Dashboard {% endblock  %}
+
+{% block content %}
+<div class="bg-white shadow rounded-lg p-6">
+
+    {% comment %} view appointment {% endcomment %}
+    <h2 class= "text-2xl font-bold mb-6 "> Welcome,{{user.username}} 👋 </h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-blue-100 p-4 rounded-lg shadow">
+        <h3 class="text-lg font-semibold">Your Appointments</h3>
+        <p class="text-gray-700 mt-2"> View and manage your upcoming appointments.</p>
+        <a href="{%url 'user_appointments'%}"class="mt-4 inline-block bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg">
+            View Appointment
+        </a>
+        </div>
+
+        {% comment %} book appointment {% endcomment %}
+        <div class="bg-green-100 p-4 rounded-lg shadow">
+            <h3 class="text-lg font-semibold">Book a new Appointment</h3>
+            <p class="text-gray-700 mt-2">Ready to book your next Consultation??</p>
+            <a href="{%url 'book_appointment' %}" class="mt-4 inline-block bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg"> Book Now</a>
+
+        </div>
+    </div>
+</div>
+{% endblock  %}
