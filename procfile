@@ -1,1 +1,1 @@
-web: gunicorn DIETITIAN.wsgi:application
+web: gunicorn diet_site.wsgi:application
