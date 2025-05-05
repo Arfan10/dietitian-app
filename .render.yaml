@@ -2,10 +2,13 @@ services:
   - type: web
     name: dietitian-app
     env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn DIETITIAN.wsgi
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py migrate
+      python manage.py collectstatic --noinput
+    startCommand: gunicorn DIETITIAN.wsgi:application
     envVars:
-      - key: DJANGO_SETTINGS_MODULE
-        value: DIETITIAN.settings
       - key: SECRET_KEY
-        generateValue: true
+        fromSecret: SECRET_KEY
+      - key: DATABASE_URL
+        fromSecret: DATABASE_URL
