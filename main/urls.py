@@ -13,7 +13,8 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
     path('dashboard/', views.user_dashboard, name='user_dashboard'),
     path('dietitian/dashboard/', views.dietitian_dashboard, name='dietitian_dashboard'),
-
+    path('get_available_slots/', views.get_available_slots, name='get_available_slots'),
+    path('dietitian/clients/', views.client_list, name='client_list'),
 
 
 ]

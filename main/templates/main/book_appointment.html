@@ -1,50 +1,129 @@
-{% extends 'base.html' %}
-{% load form_filters %}
-{% block content %}
-<div class="min-h-screen bg-gray-100 flex items-center justify-center px-4 py-12">
-  <div class="w-full max-w-lg bg-white rounded-2xl shadow-md p-8">
-    <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Book an Appointment</h2>
-    
-    <form method="POST" action= "{% url 'book_appointment' %}" class="space-y-5">
-      {% csrf_token %}
-      
-      <!-- Full Name -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Full Name</label>
-        {{ form.full_name|add_class:"input-field" }}
-      </div>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Book Appointment</title>
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Pikaday CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css" />
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
 
-      <!-- Email -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Email</label>
-        {{ form.email|add_class:"input-field" }}
-      </div>
+    <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
+        <h1 class="text-2xl font-bold mb-6 text-gray-800 text-center">Book an Appointment</h1>
 
-      <!-- Date -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Date</label>
-        {{ form.date|add_class:"input-field" }}
-      </div>
+        {% if messages %}
+        <div class="mb-4">
+            {% for message in messages %}
+            <div class="p-4 rounded {% if message.tags == 'error' %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
 
-      <!-- Time -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Time</label>
-        {{ form.time|add_class:"input-field" }}
-      </div>
+        <form id="appointmentForm" method="POST" action="{% url 'book_appointment' %}">
+            {% csrf_token %}
 
-      <!-- Message -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Message (Optional)</label>
-        {{ form.message|add_class:"input-field" }}
-      </div>
+            <div class="mb-4">
+                <label for="id_full_name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                <input
+                    type="text"
+                    id="id_full_name"
+                    name="full_name"
+                    required
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-200"
+                    placeholder="Your full name"
+                />
+                {% if form.full_name.errors %}
+                <p class="text-red-500 text-xs mt-1">{{ form.full_name.errors }}</p>
+                {% endif %}
+            </div>
 
-      <!-- Submit Button -->
-      <div class="pt-4">
-        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-xl transition">
-          Book Now
-        </button>
-      </div>
-    </form>
-  </div>
-</div>
-{% endblock %}
+            <div class="mb-4">
+                <label for="id_email" class="block text-sm font-medium text-gray-700">Email</label>
+                <input
+                    type="email"
+                    id="id_email"
+                    name="email"
+                    required
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-200"
+                    placeholder="you@example.com"
+                />
+                {% if form.email.errors %}
+                <p class="text-red-500 text-xs mt-1">{{ form.email.errors }}</p>
+                {% endif %}
+            </div>
+
+            <div class="mb-4">
+                <label for="id_date" class="block text-sm font-medium text-gray-700">Date</label>
+                <input
+                    type="date"
+                    id="id_date"
+                    name="date"
+                    min="{{ today_date }}" 
+                    class="hidden"
+                    required
+                />
+                <input
+                    type="text"
+                    id="date_picker"
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm cursor-pointer focus:outline-none focus:ring focus:ring-blue-200"
+                    placeholder="Select date"
+                    autocomplete="off"
+                    readonly
+                    required
+                />
+                {% if form.date.errors %}
+                <p class="text-red-500 text-xs mt-1">{{ form.date.errors }}</p>
+                {% endif %}
+            </div>
+
+            <div class="mb-4">
+                <label for="id_time" class="block text-sm font-medium text-gray-700">Time</label>
+                <select
+                    id="id_time"
+                    name="time"
+                    required
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-200"
+                >
+                    <option value="">Select a time slot</option>
+                    <!-- Available time slots will be populated via JavaScript -->
+                </select>
+                {% if form.time.errors %}
+                <p class="text-red-500 text-xs mt-1">{{ form.time.errors }}</p>
+                {% endif %}
+            </div>
+
+            <div class="mb-6">
+                <label for="id_message" class="block text-sm font-medium text-gray-700">Message</label>
+                <textarea
+                    id="id_message"
+                    name="message"
+                    rows="4"
+                    placeholder="Any special requirements or information..."
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-200"
+                ></textarea>
+                {% if form.message.errors %}
+                <p class="text-red-500 text-xs mt-1">{{ form.message.errors }}</p>
+                {% endif %}
+            </div>
+
+            <button
+                type="submit"
+                id="submitBtn"
+                class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition"
+            >
+                Book Now
+            </button>
+
+            <div id="formMessage" class="mt-4 text-center text-sm font-medium"></div>
+        </form>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+    <script src="{% static 'booking.js' %}"></script></body>
+</html>

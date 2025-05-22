@@ -10,7 +10,7 @@ class Appointment(models.Model):
     message = models.TextField(blank = True)
 
     def __str__(self):
-        return f"{self.full_name} - {self.date} {self.time}"
+        return f"Appointment for {self.full_name} on {self.date} at {self.time}"
     
 class Dietplan(models.Model):
     title = models.CharField(max_length=100)
@@ -33,3 +33,14 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"{self.user.username} ({self.role})"
+    
+
+class Client(models.Model):
+    dietitian = models.ForeignKey(User, on_delete=models.CASCADE, related_name='clients')
+    full_name = models.CharField(max_length=255)
+    email = models.EmailField()
+    phone = models.CharField(max_length=20, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.full_name} ({self.email})"
